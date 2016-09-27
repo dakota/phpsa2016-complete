@@ -21,6 +21,10 @@
             echo $this->Form->input('description');
             echo $this->Form->input('start');
             echo $this->Form->input('end');
+            echo $this->Form->input('organiser_id', [
+                'empty' => '-- Select organiser --',
+                'options' => $members,
+            ]);
             echo $this->Form->input('members._ids', ['options' => $members]);
         ?>
     </fieldset>

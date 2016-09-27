@@ -76,6 +76,9 @@ class EventsController extends AppController
         $event = $this->Events->get($id, [
             'contain' => ['Members']
         ]);
+        if ($event->organiser_id !== $this->Auth->user('id')) {
+            throw new ForbiddenException();
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $event = $this->Events->patchEntity($event, $this->request->data);
             if ($this->Events->save($event)) {

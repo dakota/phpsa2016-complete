@@ -33,10 +33,19 @@ class Member extends Entity
         'id' => false
     ];
 
-protected function _setPassword($password)
+protected $_virtual = [
+    'full_name'
+];
+
+protected function _getFullName()
 {
-    if (strlen($password) > 0) {
-        return (new DefaultPasswordHasher())->hash($password);
-    }
+    return sprintf('%s %s (%s)', $this->first_name, $this->last_name, $this->email);
 }
+
+    protected function _setPassword($password)
+    {
+        if (strlen($password) > 0) {
+            return (new DefaultPasswordHasher())->hash($password);
+        }
+    }
 }

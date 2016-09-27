@@ -35,7 +35,7 @@ class MembersTable extends Table
         parent::initialize($config);
 
         $this->table('members');
-        $this->displayField('id');
+        $this->displayField('full_name');
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
@@ -44,6 +44,11 @@ class MembersTable extends Table
             'foreignKey' => 'member_id',
             'targetForeignKey' => 'event_id',
             'joinTable' => 'events_members'
+        ]);
+
+        $this->hasMany('OrganisingEvents', [
+            'foreignKey' => 'organiser_id',
+            'className' => 'Events'
         ]);
     }
 

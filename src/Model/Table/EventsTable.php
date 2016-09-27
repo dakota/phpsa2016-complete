@@ -45,6 +45,11 @@ class EventsTable extends Table
             'targetForeignKey' => 'member_id',
             'joinTable' => 'events_members'
         ]);
+
+$this->belongsTo('Organiser', [
+    'foreignKey' => 'organiser_id',
+    'className' => 'Members'
+]);
     }
 
     /**
@@ -92,6 +97,8 @@ public function buildRules(RulesChecker $rules)
             'message' => 'The event cannot end before it has started'
         ]
     );
+
+    $rules->existsIn('organiser_id', 'Organiser', 'That member does not exist in the database.');
 
     return parent::buildRules($rules);
 }

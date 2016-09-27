@@ -65,7 +65,7 @@ class EventsTable extends Table
 
         $validator
             ->requirePresence('description', 'create')
-            ->notEmpty('description');
+            ->allowEmpty('description');
 
         $validator
             ->dateTime('start')
@@ -79,4 +79,21 @@ class EventsTable extends Table
 
         return $validator;
     }
+
+public function buildRules(RulesChecker $rules)
+{
+    $rules->add(
+        function (Event $event) {
+            return $event->start <= $event->end;
+        },
+        'endAfterStart',
+        [
+            'errorField' => 'end',
+            'message' => 'The event cannot end before it has started'
+        ]
+    );
+
+    return parent::buildRules($rules);
+}
+
 }

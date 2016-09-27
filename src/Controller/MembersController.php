@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Members Controller
@@ -10,6 +11,13 @@ use App\Controller\AppController;
  */
 class MembersController extends AppController
 {
+
+public function beforeFilter(\Cake\Event\Event $event)
+{
+    $this->Auth->allow('add');
+
+    return parent::beforeFilter($event);
+}
 
     /**
      * Index method
@@ -73,9 +81,14 @@ class MembersController extends AppController
      */
     public function edit($id = null)
     {
+        if ($id !== $this->Auth->user('id')) {
+            throw new ForbiddenException();
+        }
+
         $member = $this->Members->get($id, [
             'contain' => ['Events']
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $member = $this->Members->patchEntity($member, $this->request->data);
             if ($this->Members->save($member)) {

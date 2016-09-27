@@ -27,6 +27,7 @@ use Cake\Event\Event;
  */
 class AppController extends Controller
 {
+    use \Crud\Controller\ControllerTrait;
 
     /**
      * Initialization hook method.
@@ -43,18 +44,30 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-$this->loadComponent('Auth', [
-    'loginAction' => [
-        'controller' => 'Members',
-        'action' => 'login',
-    ],
-    'authenticate' => [
-        'Form' => [
-            'fields' => ['username' => 'email', 'password' => 'password'],
-            'userModel' => 'Members'
-        ]
-    ]
-]);
+        $this->loadComponent('Auth', [
+            'loginAction' => [
+                'controller' => 'Members',
+                'action' => 'login',
+            ],
+            'authenticate' => [
+                'Form' => [
+                    'fields' => ['username' => 'email', 'password' => 'password'],
+                    'userModel' => 'Members'
+                ]
+            ]
+        ]);
+        $this->loadComponent('Crud.Crud', [
+            'actions' => [
+                'Crud.Index',
+                'Crud.View',
+                'Crud.Edit',
+                'Crud.Add',
+                'Crud.Delete'
+            ],
+            'listeners' => [
+                'Crud.RelatedModels'
+            ]
+        ]);
     }
 
     /**

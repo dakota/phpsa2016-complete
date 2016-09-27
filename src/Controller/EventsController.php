@@ -18,6 +18,9 @@ class EventsController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Members']
+        ];
         $events = $this->paginate($this->Events);
 
         $this->set(compact('events'));
@@ -113,4 +116,17 @@ class EventsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function linkActiveMember($eventId, $type)
+    {
+        $event = $this->Events->get($eventId);
+        if ($this->Events->linkMember($event, $this->Auth->user('id'), $type)) {
+            $this->Flash->success('Registered!');
+        } else {
+            $this->Flash->error('Something went wrong.');
+        }
+
+        return $this->redirect($this->referer());
+    }
+
 }

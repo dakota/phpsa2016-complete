@@ -103,4 +103,15 @@ public function buildRules(RulesChecker $rules)
     return parent::buildRules($rules);
 }
 
+    public function linkMember(\App\Model\Entity\Event $event, $memberId, $type)
+    {
+        $member = $this->Members->get($memberId);
+        //Add the join data
+        $member->_joinData = new \App\Model\Entity\EventsMember([
+            'type' => $type
+        ]);
+
+        return $this->association('Members')->link($event, [$member]);
+    }
+
 }

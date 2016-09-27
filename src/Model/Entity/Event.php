@@ -32,4 +32,20 @@ class Event extends Entity
         '*' => true,
         'id' => false
     ];
+
+    public function memberStatus($memberId, $type)
+    {
+        if (!$this->has('members')) {
+            return false;
+        }
+
+        $member = collection($this->members)
+            ->firstMatch(['id' => $memberId]);
+
+        if (!$member) {
+            return false;
+        }
+
+        return $member->_joinData->type === $type;
+    }
 }

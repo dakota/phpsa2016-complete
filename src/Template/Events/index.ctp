@@ -33,6 +33,36 @@
                     <?= $this->Html->link(__('View'), ['action' => 'view', $event->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $event->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $event->id], ['confirm' => __('Are you sure you want to delete # {0}?', $event->id)]) ?>
+                    <br>
+                    <?php
+                    if (!$event->memberStatus($this->request->session()
+                        ->read('Auth.User.id'), \App\Model\Entity\EventsMember::TYPE_GOING)
+                    ) {
+                        echo $this->Html->link(__('Going'), [
+                            'action' => 'linkActiveMember',
+                            $event->id,
+                            \App\Model\Entity\EventsMember::TYPE_GOING
+                        ]);
+                    }
+                    if (!$event->memberStatus($this->request->session()
+                        ->read('Auth.User.id'), \App\Model\Entity\EventsMember::TYPE_INTERESTED)
+                    ) {
+                        echo $this->Html->link(__('Interested'), [
+                            'action' => 'linkActiveMember',
+                            $event->id,
+                            \App\Model\Entity\EventsMember::TYPE_INTERESTED
+                        ]);
+                    }
+                    if (!$event->memberStatus($this->request->session()
+                        ->read('Auth.User.id'), \App\Model\Entity\EventsMember::TYPE_NOT_GOING)
+                    ) {
+                        echo $this->Html->link(__('Not going'), [
+                            'action' => 'linkActiveMember',
+                            $event->id,
+                            \App\Model\Entity\EventsMember::TYPE_NOT_GOING
+                        ]);
+                    }
+                    ?>
                 </td>
             </tr>
             <?php endforeach; ?>

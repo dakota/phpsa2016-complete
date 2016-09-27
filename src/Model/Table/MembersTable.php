@@ -43,7 +43,8 @@ class MembersTable extends Table
         $this->belongsToMany('Events', [
             'foreignKey' => 'member_id',
             'targetForeignKey' => 'event_id',
-            'joinTable' => 'events_members'
+            'through' => 'EventsMembers',
+            'saveStrategy' => \Cake\ORM\Association\BelongsToMany::SAVE_APPEND
         ]);
 
         $this->hasMany('OrganisingEvents', [

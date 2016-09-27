@@ -10,6 +10,15 @@ use App\Controller\AppController;
  */
 class EventsController extends AppController
 {
+    public function beforeFilter(\Cake\Event\Event $event)
+    {
+        $this->Crud->addListener('Auth', 'Auth', [
+            'property' => 'organiser_id'
+        ]);
+
+        return parent::beforeFilter($event);
+    }
+
     public function linkActiveMember($eventId, $type)
     {
         $event = $this->Events->get($eventId);

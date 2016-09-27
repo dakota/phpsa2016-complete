@@ -15,6 +15,9 @@ class MembersController extends AppController
     public function beforeFilter(\Cake\Event\Event $event)
     {
         $this->Auth->allow('add');
+        $this->Crud->addListener('Auth', 'Auth', [
+            'property' => 'id'
+        ]);
 
         return parent::beforeFilter($event);
     }

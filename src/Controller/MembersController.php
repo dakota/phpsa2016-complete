@@ -110,4 +110,26 @@ class MembersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+public function login()
+{
+    if ($this->request->is('post')) {
+        $member = $this->Auth->identify();
+        if ($member) {
+            $this->Auth->setUser($member);
+
+            return $this->redirect($this->Auth->redirectUrl());
+        } else {
+            $this->Flash->error(__('Email address or password is incorrect'), [
+                'key' => 'auth'
+            ]);
+        }
+    }
+}
+
+public function logout()
+{
+    return $this->redirect($this->Auth->logout());
+}
+
 }

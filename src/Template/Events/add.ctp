@@ -20,8 +20,6 @@
                 'options' => $members,
                 'default' => $this->request->session()->read('Auth.User.id')
             ]);
-
-            echo $this->Form->input('members._ids', ['options' => $members]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

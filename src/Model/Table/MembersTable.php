@@ -78,6 +78,25 @@ class MembersTable extends Table
             ->requirePresence('email', 'create')
             ->notEmpty('email');
 
+        $validator
+            ->requirePresence('password', 'create')
+            ->notEmpty('password', 'You need to provide a password.', 'create')
+            ->minLength('password', 6, 'Your password must be 6 characters or longer');
+
+        $condition = function ($context) {
+            return !empty($context['data']['password']);
+        };
+        $validator
+            ->requirePresence('password_confirm', $condition)
+            ->notEmpty('password_confirm', 'Please confirm your password', $condition)
+            ->add('password_confirm', 'mustMatch', [
+                'rule' => function ($check, $context) {
+                    return $context['data']['password'] === $check;
+                },
+                'on' => $condition,
+                'message' => 'Password does not match'
+            ]);
+
         return $validator;
     }
 

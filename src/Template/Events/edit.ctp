@@ -25,7 +25,6 @@
                 'empty' => '-- Select organiser --',
                 'options' => $members,
             ]);
-            echo $this->Form->input('members._ids', ['options' => $members]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
